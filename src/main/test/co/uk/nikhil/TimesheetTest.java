@@ -22,35 +22,35 @@ public class TimesheetTest {
     public void givenADateGetTheWeekTillNowStartingFromMonday() throws ParseException {
         List<Date> dates;
 
-        dates = timesheet.getWeekTillNow(getDateToTest("11/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("11/07/2016"));
         assertDates(dates, asList(11));
 
-        dates = timesheet.getWeekTillNow(getDateToTest("12/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("12/07/2016"));
         assertDates(dates, asList(11, 12));
 
-        dates = timesheet.getWeekTillNow(getDateToTest("13/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("13/07/2016"));
         assertDates(dates, asList(11, 12, 13));
 
-        dates = timesheet.getWeekTillNow(getDateToTest("14/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("14/07/2016"));
         assertDates(dates, asList(11, 12, 13, 14));
 
-        dates = timesheet.getWeekTillNow(getDateToTest("15/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("15/07/2016"));
         assertDates(dates, asList(11, 12, 13, 14, 15));
 
         //////ignore weekends
-        dates = timesheet.getWeekTillNow(getDateToTest("16/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("16/07/2016"));
         assertDates(dates, asList(11, 12, 13, 14, 15));
 
-        dates = timesheet.getWeekTillNow(getDateToTest("17/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("17/07/2016"));
         assertDates(dates, asList(11, 12, 13, 14, 15));
 
 
         //////do not spill into previous month
-        dates = timesheet.getWeekTillNow(getDateToTest("1/07/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("1/07/2016"));
         assertDates(dates, asList(1));
 
         /////If start day is weekend and week day is previous month, nothing should be returned
-        dates = timesheet.getWeekTillNow(getDateToTest("1/05/2016"));
+        dates = timesheet.getWorkingWeekTill(getDateToTest("1/05/2016"));
         assertThat(dates.size(), is(0));
 
     }
@@ -59,19 +59,19 @@ public class TimesheetTest {
     public void givenADateGetTheMonthTillNowStartingFromTheFirst() throws ParseException {
         List<Date> dates;
 
-        dates = timesheet.getMonthTillNow(getDateToTest("13/07/2016"));
+        dates = timesheet.getWorkingMonthTill(getDateToTest("13/07/2016"));
         assertDates(dates, asList(1, 4, 5, 6, 7, 8, 11, 12, 13));
 
-        dates = timesheet.getMonthTillNow(getDateToTest("1/07/2016"));
+        dates = timesheet.getWorkingMonthTill(getDateToTest("1/07/2016"));
         assertDates(dates, asList(1));
 
-        dates = timesheet.getMonthTillNow(getDateToTest("2/07/2016"));
+        dates = timesheet.getWorkingMonthTill(getDateToTest("2/07/2016"));
         assertDates(dates, asList(1));
 
-        dates = timesheet.getMonthTillNow(getDateToTest("3/07/2016"));
+        dates = timesheet.getWorkingMonthTill(getDateToTest("3/07/2016"));
         assertDates(dates, asList(1));
 
-        dates = timesheet.getMonthTillNow(getDateToTest("31/07/2016"));
+        dates = timesheet.getWorkingMonthTill(getDateToTest("31/07/2016"));
         assertDates(dates, asList(1, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29));
     }
 

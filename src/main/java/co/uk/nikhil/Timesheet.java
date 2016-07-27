@@ -13,8 +13,8 @@ public class Timesheet {
     private static final java.util.function.Predicate<Calendar> WEEKDAYS = calendar -> calendar.get(DAY_OF_WEEK) != SATURDAY && calendar.get(DAY_OF_WEEK) != SUNDAY;
     private static final int FIRST_OF_THE_MONTH = 1;
 
-    public List<Date> getWeekTillNow(Date startDate) {
-        Calendar c = initializeCalendar(startDate);
+    public List<Date> getWorkingWeekTill(Date date) {
+        Calendar c = initializeCalendar(date);
 
         int currentMonth = c.get(MONTH);
         Predicate<Calendar> daysInCurrentMonth = calendar -> calendar.get(MONTH) == currentMonth;
@@ -32,8 +32,8 @@ public class Timesheet {
         return dates;
     }
 
-    public List<Date> getMonthTillNow(Date startDate) {
-        Calendar c = initializeCalendar(startDate);
+    public List<Date> getWorkingMonthTill(Date date) {
+        Calendar c = initializeCalendar(date);
 
         List<Calendar> calendars = new ArrayList<>();
         calendars.add(getCal(c));
