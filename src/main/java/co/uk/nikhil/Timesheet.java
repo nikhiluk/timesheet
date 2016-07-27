@@ -14,13 +14,12 @@ public class Timesheet {
     private static final int FIRST_OF_THE_MONTH = 1;
 
     public List<Date> getWeekTillNow(Date startDate) {
-        List<Calendar> calendars = new ArrayList<>();
-
         Calendar c = initializeCalendar(startDate);
 
         int currentMonth = c.get(MONTH);
         Predicate<Calendar> daysInCurrentMonth = calendar -> calendar.get(MONTH) == currentMonth;
 
+        List<Calendar> calendars = new ArrayList<>();
         calendars.add(getCal(c));
         while (c.get(DAY_OF_WEEK) != MONDAY) {
             c.add(DAY_OF_MONTH, -1);
@@ -32,10 +31,9 @@ public class Timesheet {
     }
 
     public List<Date> getMonthTillNow(Date startDate) {
-        List<Calendar> calendars = new ArrayList<>();
-
         Calendar c = initializeCalendar(startDate);
 
+        List<Calendar> calendars = new ArrayList<>();
         calendars.add(getCal(c));
         while (c.get(DAY_OF_MONTH) != FIRST_OF_THE_MONTH) {
             c.add(DAY_OF_MONTH, -1);
