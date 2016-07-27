@@ -27,7 +27,9 @@ public class Timesheet {
         }
 
         List<Calendar> filteredCalendars = filterCalendars(calendars, asList(WEEKDAYS, daysInCurrentMonth));
-        return convertCalendarsToDates(filteredCalendars);
+        List<Date> dates = convertCalendarsToDates(filteredCalendars);
+        Collections.reverse(dates);
+        return dates;
     }
 
     public List<Date> getMonthTillNow(Date startDate) {
@@ -41,7 +43,10 @@ public class Timesheet {
         }
 
         List<Calendar> filteredCalendars = filterCalendars(calendars, asList(WEEKDAYS));
-        return convertCalendarsToDates(filteredCalendars);
+
+        List<Date> dates = convertCalendarsToDates(filteredCalendars);
+        Collections.reverse(dates);
+        return dates;
     }
 
     private Calendar initializeCalendar(Date startDate) {
@@ -59,9 +64,7 @@ public class Timesheet {
     }
 
     private List<Date> convertCalendarsToDates(List<Calendar> filteredCalendars) {
-        List<Date> dates = filteredCalendars.stream().map(Calendar::getTime).collect(Collectors.toList());
-        Collections.reverse(dates);
-        return dates;
+        return filteredCalendars.stream().map(Calendar::getTime).collect(Collectors.toList());
     }
 
     private GregorianCalendar getCal(Calendar c) {
