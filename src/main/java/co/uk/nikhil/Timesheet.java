@@ -56,11 +56,8 @@ public class Timesheet {
     }
 
     private List<Calendar> filterCalendars(List<Calendar> calendars, List<Predicate<Calendar>> filters) {
-        Stream<Calendar> stream = calendars.stream();
-        for (Predicate<Calendar> predicate : filters) {
-            stream = stream.filter(predicate);
-        }
-        return stream.collect(Collectors.toList());
+        Predicate<Calendar> compositeFilter = filters.stream().reduce(f -> true, Predicate::and);
+        return calendars.stream().filter(compositeFilter).collect(Collectors.toList());
     }
 
     private List<Date> convertCalendarsToDates(List<Calendar> filteredCalendars) {
