@@ -3,7 +3,6 @@ package co.uk.nikhil;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Calendar.*;
@@ -43,7 +42,6 @@ public class Timesheet {
         }
 
         List<Calendar> filteredCalendars = filterCalendars(calendars, asList(WEEKDAYS));
-
         List<Date> dates = convertCalendarsToDates(filteredCalendars);
         Collections.reverse(dates);
         return dates;
