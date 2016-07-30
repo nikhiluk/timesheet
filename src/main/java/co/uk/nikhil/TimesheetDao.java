@@ -14,7 +14,7 @@ public class TimesheetDao {
         this.dataSource = dataSource;
     }
 
-    public void addDate() {
+    public void addToday() {
         String sql = "insert into days_worked values (?)";
         Connection conn = null;
 
