@@ -1,40 +1,19 @@
 package co.uk.nikhil;
 
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class TimesheetDao {
-    private DataSource dataSource;
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private JdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void addToday() {
         String sql = "insert into days_worked values (?)";
-        Connection conn = null;
-
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            Date d = new Date();
-            ps.setDate(1, new java.sql.Date(d.getTime()));
-            ps.executeUpdate();
-            ps.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
-        }
+        jdbcTemplate.update(sql, new Object[]{new java.sql.Date(new Date().getTime())});
     }
 }
