@@ -9,7 +9,7 @@ import static java.util.Calendar.*;
 
 public class Timesheet {
 
-    private static final java.util.function.Predicate<Calendar> WEEKDAYS = calendar -> calendar.get(DAY_OF_WEEK) != SATURDAY && calendar.get(DAY_OF_WEEK) != SUNDAY;
+    private static final Predicate<Calendar> WEEKDAYS = calendar -> calendar.get(DAY_OF_WEEK) != SATURDAY && calendar.get(DAY_OF_WEEK) != SUNDAY;
     private static final int FIRST_OF_THE_MONTH = 1;
 
     public List<Date> getWorkingWeekTill(Date date) {
