@@ -16,4 +16,9 @@ public class TimesheetDao {
         String sql = "insert into days_worked values (?)";
         jdbcTemplate.update(sql, new Object[]{new java.sql.Date(new Date().getTime())});
     }
+
+    public boolean dateExists(Date date) {
+        int count = jdbcTemplate.queryForInt("select count(*) from days_worked where day = ?", new Object[]{new java.sql.Date(date.getTime())});
+        return count == 1;
+    }
 }
