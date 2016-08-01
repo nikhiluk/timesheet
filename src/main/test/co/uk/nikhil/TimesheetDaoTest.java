@@ -37,6 +37,7 @@ public class TimesheetDaoTest {
     @Test
     public void addToday() {
         timesheetDao.addToday();
+
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
         assertThat(count, is(1));
 
