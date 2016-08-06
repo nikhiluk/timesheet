@@ -15,9 +15,8 @@ public class TimesheetController   {
 
     @RequestMapping(value = "/add/today", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public String addToday() {
+    public void addToday() {
         timesheetService.addToday();
-        return "";
     }
 
     public void setTimesheetService(TimesheetService timesheetService) {
