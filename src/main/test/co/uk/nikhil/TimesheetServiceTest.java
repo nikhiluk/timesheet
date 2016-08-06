@@ -1,6 +1,5 @@
 package co.uk.nikhil;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,7 @@ import static org.hamcrest.core.Is.is;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@ContextConfiguration(classes = TestConfig.class)
 public class TimesheetServiceTest {
 
     @Autowired
