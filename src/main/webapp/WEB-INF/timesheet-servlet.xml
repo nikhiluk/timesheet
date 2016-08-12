@@ -10,6 +10,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <mvc:annotation-driven/>
     <context:component-scan base-package="co.uk.nikhil.**" />
-
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--<property name="prefix" value="pages/" />-->
+        <property name="suffix" value=".jsp" />
+    </bean>
 
 </beans>
