@@ -15,13 +15,22 @@
     </context-param>
 
     <servlet>
+        <servlet-name>resources</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
         <servlet-name>timesheet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>timesheet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/add/today</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>resources</servlet-name>
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
     <context-param>

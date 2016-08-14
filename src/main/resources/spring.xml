@@ -9,7 +9,7 @@
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/timesheet_prod" />
+        <property name="url" value="jdbc:mysql://localhost:3306/timesheet_dev" />
         <property name="username" value="root" />
     </bean>
 
@@ -28,5 +28,7 @@
     <bean id="timesheetController" class="co.uk.nikhil.TimesheetController">
         <property name="timesheetService" ref="timesheetService"/>
     </bean>
+
+    <bean id="timesheetViewController" class="co.uk.nikhil.TimesheetViewController"/>
 
 </beans>

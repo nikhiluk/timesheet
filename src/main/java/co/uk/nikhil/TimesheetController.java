@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class TimesheetController   {
 
     @Autowired
@@ -21,12 +21,6 @@ public class TimesheetController   {
         timesheetService.addToday();
     }
 
-    @RequestMapping(value = "/timesheet")
-    @ResponseStatus(HttpStatus.OK)
-    public ModelAndView timesheet() {
-        ModelAndView modelAndView = new ModelAndView("timesheet");
-        return modelAndView;
-    }
 
     public void setTimesheetService(TimesheetService timesheetService) {
         this.timesheetService = timesheetService;
