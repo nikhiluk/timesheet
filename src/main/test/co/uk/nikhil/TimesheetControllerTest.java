@@ -34,7 +34,7 @@ public class TimesheetControllerTest {
     @Test
     public void addToday() {
         String url = "http://localhost:8080/add/today";
-        restTemplate.exchange(url, HttpMethod.GET, null, Void.class, new HashMap<String, Object>());
+        restTemplate.exchange(url, HttpMethod.POST, null, Void.class, new HashMap<String, Object>());
 
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
         assertThat(count, is(1));

@@ -29,4 +29,6 @@
         <property name="timesheetService" ref="timesheetService"/>
     </bean>
 
+    <bean id="timesheetViewController" class="co.uk.nikhil.TimesheetViewController"/>
+
 </beans>
