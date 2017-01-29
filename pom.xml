@@ -9,6 +9,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -41,14 +46,14 @@
             <version>4.1.4.RELEASE</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-web</artifactId>-->
-            <!--<version>4.3.2.RELEASE</version>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring-web</artifactId>-->
+        <!--<version>4.3.2.RELEASE</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.tomcat</groupId>-->
-            <!--<artifactId>jasper</artifactId>-->
-            <!--<version>6.0.32</version>-->
+        <!--<groupId>org.apache.tomcat</groupId>-->
+        <!--<artifactId>jasper</artifactId>-->
+        <!--<version>6.0.32</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -84,6 +89,15 @@
                         <url>jdbc:mysql://localhost:3306/timesheet_dev</url>
                         <user>root</user>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <warName>timesheetApp</warName>
+                    </configuration>
+
                 </plugin>
             </plugins>
         </pluginManagement>
