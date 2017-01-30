@@ -12,9 +12,9 @@ public class TimesheetDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addToday() {
+    public void addDate(Date date) {
         String sql = "insert into days_worked values (?)";
-        jdbcTemplate.update(sql, new Object[]{new java.sql.Date(new Date().getTime())});
+        jdbcTemplate.update(sql, new Object[]{new java.sql.Date(date.getTime())});
     }
 
     public boolean dateExists(Date date) {

@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -21,6 +23,8 @@ public class TimesheetServiceTest {
     @Autowired
     private TimesheetService timesheetService;
 
+    private CurrentDateService currentDateService;
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -31,6 +35,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void addToday() {
+        timesheetService.setCurrentDateService(new CurrentDateService());
         timesheetService.addToday();
 
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
@@ -41,7 +46,23 @@ public class TimesheetServiceTest {
     }
 
     @Test
+    public void addTodayGivenADateSetByTheExternalService() throws ParseException {
+        currentDateService = new CurrentDateService(getDateToTest("13/1/2017"));
+        timesheetService.setCurrentDateService(currentDateService);
+
+        timesheetService.addToday();
+
+        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        assertThat(count, is(1));
+
+        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        assertThat(date, is(getDateToTest("13/1/2017")));
+
+    }
+
+    @Test
     public void addTodayAndIfItAlreadyExistsDoNothing() {
+        timesheetService.setCurrentDateService(new CurrentDateService());
         jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(new java.util.Date().getTime())});
 
         timesheetService.addToday();
@@ -52,4 +73,9 @@ public class TimesheetServiceTest {
         Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
         assertThat(date, is(new Date(date.getTime())));
     }
+
+    private java.util.Date getDateToTest(String dateString) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+    }
+
 }

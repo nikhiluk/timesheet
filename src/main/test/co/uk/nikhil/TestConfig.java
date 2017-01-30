@@ -16,6 +16,7 @@ public class TestConfig {
     public TimesheetService timesheetService(TimesheetDao timesheetDao) {
         TimesheetService timesheetService = new TimesheetService();
         timesheetService.setTimesheetDao(timesheetDao);
+        timesheetService.setCurrentDateService(new CurrentDateService() );
         return timesheetService;
     }
 

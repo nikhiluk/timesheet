@@ -23,7 +23,10 @@
 
     <bean id="timesheetService" class="co.uk.nikhil.TimesheetService">
         <property name="timesheetDao" ref="timesheetDao"/>
+        <property name="currentDateService" ref="currentDateService"/>
     </bean>
+
+    <bean id="currentDateService" class="co.uk.nikhil.CurrentDateService"/>
 
     <bean id="timesheetController" class="co.uk.nikhil.TimesheetController">
         <property name="timesheetService" ref="timesheetService"/>

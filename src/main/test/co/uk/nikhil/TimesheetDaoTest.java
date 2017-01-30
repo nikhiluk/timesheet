@@ -34,14 +34,14 @@ public class TimesheetDaoTest {
     }
 
     @Test
-    public void addToday() {
-        timesheetDao.addToday();
+    public void addDate() throws ParseException {
+        timesheetDao.addDate(getDateToTest("01/07/2016"));
 
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
         assertThat(count, is(1));
 
         Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
-        assertThat(date, is(new Date(date.getTime())));
+        assertThat(date, is(getDateToTest("01/07/2016")));
     }
 
     @Test
