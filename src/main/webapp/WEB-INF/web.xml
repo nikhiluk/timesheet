@@ -11,7 +11,7 @@
 
     <context-param>
         <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.XmlWebApplicationContext</param-value>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
     </context-param>
 
     <servlet>
@@ -32,11 +32,4 @@
         <servlet-name>resources</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
-
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath*:spring.xml
-        </param-value>
-    </context-param>
 </web-app>
