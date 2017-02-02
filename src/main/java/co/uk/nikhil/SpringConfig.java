@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 @Configuration
-@PropertySource("classpath:app.properties")
+@PropertySource("classpath:application.properties")
 @EnableWebMvc
 public class SpringConfig {
 

@@ -73,7 +73,43 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>env-dev</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <db.name>timesheet_dev</db.name>
+                <current.date>13/4/2015</current.date>
+            </properties>
+        </profile>
+        <profile>
+            <id>env-prod</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <properties>
+                <db.name>timesheet_prod</db.name>
+                <current.date></current.date>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
                 <plugin>
