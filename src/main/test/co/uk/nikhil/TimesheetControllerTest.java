@@ -1,5 +1,6 @@
 package co.uk.nikhil;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+import static java.util.Calendar.DAY_OF_MONTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -54,21 +60,24 @@ public class TimesheetControllerTest {
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
         assertThat(count, is(9));
 
-//        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
-//        assertDates(dates.stream().map(d ->  d. ), asList(1, 2, 3, 6, 7, 8, 9, 10, 13));
+        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
+        assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(1, 2, 3, 6, 7, 8, 9, 10, 13));
     }
 
     private java.util.Date getDateToTest(String dateString) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
     }
 
-//    private void assertDates(List<java.util.Date> dates, List<Integer> expectedDates) {
-//        assertThat(dates.size(), CoreMatchers.is(expectedDates.size()));
-//        for (int i = 0; i < dates.size(); i++) {
-//            c.setTime(dates.get(i));
-//            assertThat(c.get(DAY_OF_MONTH), CoreMatchers.is(expectedDates.get(i)));
-//        }
-//    }
+    private Calendar c = Calendar.getInstance();
+
+
+    private void assertDates(List<java.util.Date> dates, List<Integer> expectedDates) {
+        assertThat(dates.size(), CoreMatchers.is(expectedDates.size()));
+        for (int i = 0; i < dates.size(); i++) {
+            c.setTime(dates.get(i));
+            assertThat(c.get(DAY_OF_MONTH), CoreMatchers.is(expectedDates.get(i)));
+        }
+    }
 
 
 }
