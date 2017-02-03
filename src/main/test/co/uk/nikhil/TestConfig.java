@@ -17,7 +17,14 @@ public class TestConfig {
         TimesheetService timesheetService = new TimesheetService();
         timesheetService.setTimesheetDao(timesheetDao);
         timesheetService.setCurrentDateService(new CurrentDateService() );
+        timesheetService.setTimesheet(timesheet());
         return timesheetService;
+    }
+
+    @Bean
+    @Autowired
+    public Timesheet timesheet() {
+        return new Timesheet();
     }
 
     @Bean

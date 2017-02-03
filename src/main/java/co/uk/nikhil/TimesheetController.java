@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class TimesheetController   {
+public class TimesheetController {
 
     @Autowired
     private TimesheetService timesheetService;
@@ -18,8 +18,13 @@ public class TimesheetController   {
     @RequestMapping(value = "/add/today", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void addToday() {
-//        timesheetService.setCurrentDateService(new CurrentDateService());
         timesheetService.addToday();
+    }
+
+    @RequestMapping(value = "/add/month-till-today", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void addMonthTillToday() {
+        timesheetService.addMonthTillToday();
     }
 
 

@@ -74,6 +74,39 @@ public class TimesheetServiceTest {
         assertThat(date, is(new Date(date.getTime())));
     }
 
+
+    @Test
+    public void addMonthTillToday() throws ParseException {
+        timesheetService.setCurrentDateService(new CurrentDateService(getDateToTest("13/1/2017")));
+        timesheetService.addMonthTillToday();
+
+        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        assertThat(count, is(10));
+
+//        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
+//        Calendar c = Calendar.getInstance();
+//        c.setTime();
+
+//        assertThat(date, is(new Date(date.getTime())));
+    }
+
+
+    @Test
+    public void addMonthTillDateAndIfAnyDateAlreadyExistsDoNotAddAgain() throws ParseException {
+        timesheetService.setCurrentDateService(new CurrentDateService(getDateToTest("13/1/2017")));
+        jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(getDateToTest("11/1/2017").getTime())});
+        jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(getDateToTest("12/1/2017").getTime())});
+
+        timesheetService.addMonthTillToday();
+
+        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        assertThat(count, is(10));
+
+//        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+//        assertThat(date, is(new Date(date.getTime())));
+    }
+
+
     private java.util.Date getDateToTest(String dateString) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
     }

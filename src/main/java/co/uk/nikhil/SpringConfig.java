@@ -36,7 +36,15 @@ public class SpringConfig {
         } else {
             timesheetService.setCurrentDateService(new CurrentDateService());
         }
+        timesheetService.setTimesheet(timesheet());
         return timesheetService;
+    }
+
+
+    @Bean
+    @Autowired
+    public Timesheet timesheet() {
+        return new Timesheet();
     }
 
     @Bean
