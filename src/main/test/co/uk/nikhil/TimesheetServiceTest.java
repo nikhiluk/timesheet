@@ -1,6 +1,5 @@
 package co.uk.nikhil;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,24 +10,27 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static co.uk.nikhil.TestUtils.assertDates;
+import static co.uk.nikhil.TestUtils.getDateToTest;
 import static java.util.Arrays.asList;
-import static java.util.Calendar.DAY_OF_MONTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = {SpringConfig.class, TestConfig.class})
 public class TimesheetServiceTest {
 
     @Autowired
     private TimesheetService timesheetService;
 
+    @Autowired
+    private CurrentDateService currentDateServiceWithTestDate;
+
+    @Autowired
     private CurrentDateService currentDateService;
 
     @Autowired
@@ -41,7 +43,6 @@ public class TimesheetServiceTest {
 
     @Test
     public void addToday() {
-        timesheetService.setCurrentDateService(new CurrentDateService());
         timesheetService.addToday();
 
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
@@ -53,8 +54,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void addTodayGivenADateSetByTheExternalService() throws ParseException {
-        currentDateService = new CurrentDateService(getDateToTest("13/1/2017"));
-        timesheetService.setCurrentDateService(currentDateService);
+        timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
 
         timesheetService.addToday();
 
@@ -68,7 +68,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void addTodayAndIfItAlreadyExistsDoNothing() {
-        timesheetService.setCurrentDateService(new CurrentDateService());
+        timesheetService.setCurrentDateService(currentDateService);
         jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(new java.util.Date().getTime())});
 
         timesheetService.addToday();
@@ -83,7 +83,8 @@ public class TimesheetServiceTest {
 
     @Test
     public void addMonthTillToday() throws ParseException {
-        timesheetService.setCurrentDateService(new CurrentDateService(getDateToTest("13/1/2017")));
+        timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
+
         timesheetService.addMonthTillToday();
 
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
@@ -96,7 +97,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void addMonthTillDateAndIfAnyDateAlreadyExistsDoNotAddAgain() throws ParseException {
-        timesheetService.setCurrentDateService(new CurrentDateService(getDateToTest("13/1/2017")));
+        timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
         jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(getDateToTest("11/1/2017").getTime())});
         jdbcTemplate.update("insert into days_worked values (?)", new Object[]{new Date(getDateToTest("12/1/2017").getTime())});
 
@@ -108,24 +109,4 @@ public class TimesheetServiceTest {
         List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
         assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(2, 3, 4, 5, 6, 9, 10, 11, 12, 13));
     }
-
-
-    private java.util.Date getDateToTest(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-    }
-
-    private Calendar c = Calendar.getInstance();
-
-
-
-    private void assertDates(List<java.util.Date> dates, List<Integer> expectedDates) {
-        dates.sort(java.util.Date::compareTo);
-        assertThat(dates.size(), CoreMatchers.is(expectedDates.size()));
-        for (int i = 0; i < dates.size(); i++) {
-            c.setTime(dates.get(i));
-            assertThat(c.get(DAY_OF_MONTH), CoreMatchers.is(expectedDates.get(i)));
-        }
-    }
-
-
 }

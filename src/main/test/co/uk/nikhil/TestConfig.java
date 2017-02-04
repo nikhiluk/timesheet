@@ -7,32 +7,36 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Configuration
 public class TestConfig {
 
+
     @Bean
     @Autowired
-    public TimesheetService timesheetService(TimesheetDao timesheetDao) {
-        TimesheetService timesheetService = new TimesheetService();
-        timesheetService.setTimesheetDao(timesheetDao);
-        timesheetService.setCurrentDateService(new CurrentDateService() );
-        timesheetService.setTimesheet(timesheet());
-        return timesheetService;
+    public CurrentDateService currentDateServiceWithTestDate() {
+        CurrentDateService currentDateService = new CurrentDateService();
+        currentDateService.setCurrentDate(getDateToTest("13/1/2017"));
+        return currentDateService;
     }
 
     @Bean
     @Autowired
-    public Timesheet timesheet() {
-        return new Timesheet();
+    public CurrentDateService currentDateService() {
+        CurrentDateService currentDateService = new CurrentDateService();
+        currentDateService.setCurrentDate(new Date());
+        return currentDateService;
     }
 
-    @Bean
-    @Autowired
-    public TimesheetDao timesheetDao(JdbcTemplate jdbcTemplate) {
-        TimesheetDao timesheetDao = new TimesheetDao();
-        timesheetDao.setJdbcTemplate(jdbcTemplate);
-        return timesheetDao;
+    private java.util.Date getDateToTest(String dateString) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     @Bean

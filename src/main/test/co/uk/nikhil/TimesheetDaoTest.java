@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
+import static co.uk.nikhil.TestUtils.getDateToTest;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,7 +19,7 @@ import static org.hamcrest.core.Is.is;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = {SpringConfig.class, TestConfig.class})
 public class TimesheetDaoTest {
 
     @Autowired
@@ -57,9 +57,5 @@ public class TimesheetDaoTest {
         assertTrue(timesheetDao.dateExists(getDateToTest("22/11/2016")));
         assertFalse(timesheetDao.dateExists(getDateToTest("23/11/2016")));
         assertFalse(timesheetDao.dateExists(getDateToTest("04/11/2016")));
-    }
-
-    private java.util.Date getDateToTest(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
     }
 }

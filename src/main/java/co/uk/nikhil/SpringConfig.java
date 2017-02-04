@@ -2,6 +2,7 @@ package co.uk.nikhil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -12,53 +13,40 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import javax.sql.DataSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-@EnableWebMvc
+@ComponentScan(basePackages = "co.uk.nikhil")
+//@EnableWebMvc
 public class SpringConfig {
 
     @Autowired
     Environment env;
 
+
     @Bean
     @Autowired
-    public TimesheetService timesheetService(TimesheetDao timesheetDao) {
-        TimesheetService timesheetService = new TimesheetService();
-        timesheetService.setTimesheetDao(timesheetDao);
+    public CurrentDateService currentDateService() {
         String currentDate = env.getProperty("current.date");
+        CurrentDateService currentDateService = new CurrentDateService();
         if (currentDate != null && !currentDate.isEmpty()) {
             try {
-                timesheetService.setCurrentDateService(new CurrentDateService(getDateToTest(currentDate)));
+                currentDateService.setCurrentDate(getDateToTest(currentDate));
             } catch (ParseException e) {
-                timesheetService.setCurrentDateService(new CurrentDateService());
+                currentDateService.setCurrentDate(new Date());
             }
         } else {
-            timesheetService.setCurrentDateService(new CurrentDateService());
+            currentDateService.setCurrentDate(new Date());
+
         }
-        timesheetService.setTimesheet(timesheet());
-        return timesheetService;
-    }
-
-
-    @Bean
-    @Autowired
-    public Timesheet timesheet() {
-        return new Timesheet();
+        return currentDateService;
     }
 
     @Bean
     @Autowired
-    public TimesheetDao timesheetDao(JdbcTemplate jdbcTemplate) {
-        TimesheetDao timesheetDao = new TimesheetDao();
-        timesheetDao.setJdbcTemplate(jdbcTemplate);
-        return timesheetDao;
-    }
-
-    @Bean
-    @Autowired
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
     @Bean

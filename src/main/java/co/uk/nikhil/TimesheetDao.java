@@ -1,16 +1,16 @@
 package co.uk.nikhil;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import java.util.Date;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
+@Service
 public class TimesheetDao {
 
+    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public void addDate(Date date) {
         String sql = "insert into days_worked values (?)";

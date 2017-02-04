@@ -24,9 +24,4 @@ public class TimesheetController {
     public void addMonthTillToday() {
         timesheetService.addMonthTillToday();
     }
-
-
-    public void setTimesheetService(TimesheetService timesheetService) {
-        this.timesheetService = timesheetService;
-    }
 }

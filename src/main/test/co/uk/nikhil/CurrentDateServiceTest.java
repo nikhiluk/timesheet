@@ -2,12 +2,11 @@ package co.uk.nikhil;
 
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static co.uk.nikhil.TestUtils.getDateToTest;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class CurrentDateServiceTest {
 
@@ -16,25 +15,17 @@ public class CurrentDateServiceTest {
         CurrentDateService currentDateService = new CurrentDateService();
 
         Date currentDate = currentDateService.getCurrentDate();
-
         assertThat(currentDate, is(new Date()));
 
     }
 
-
-
     @Test
     public void getCurrentDateForInitialisedDate() throws Exception {
-        CurrentDateService currentDateService = new CurrentDateService(getDateToTest("22/6/2017"));
+        CurrentDateService currentDateService = new CurrentDateService();
+        currentDateService.setCurrentDate(getDateToTest("22/6/2017"));
 
         Date currentDate = currentDateService.getCurrentDate();
-
         assertThat(currentDate, is(getDateToTest("22/6/2017")));
 
-    }
-
-
-    private java.util.Date getDateToTest(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
     }
 }

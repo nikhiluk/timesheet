@@ -3,21 +3,18 @@ package co.uk.nikhil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+
 @Service
 public class CurrentDateService {
 
-
-    private Date dateToTest;
-
-    public CurrentDateService() {
-        dateToTest = new Date();
-    }
-
-    public CurrentDateService(Date dateToTest) {
-        this.dateToTest = dateToTest;
-    }
+    public Date currentDate;
 
     public Date getCurrentDate() {
-        return dateToTest;
+        return this.currentDate == null ? new Date() :  this.currentDate;
     }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
 }

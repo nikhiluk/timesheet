@@ -1,12 +1,14 @@
 package co.uk.nikhil;
 
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.Calendar.*;
-
+@Service
 public class Timesheet {
 
     private static final Predicate<Calendar> WEEKDAYS = calendar -> calendar.get(DAY_OF_WEEK) != SATURDAY && calendar.get(DAY_OF_WEEK) != SUNDAY;

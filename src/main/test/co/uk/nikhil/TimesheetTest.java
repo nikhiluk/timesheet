@@ -3,13 +3,13 @@ package co.uk.nikhil;
 import org.junit.Test;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static co.uk.nikhil.TestUtils.assertDates;
+import static co.uk.nikhil.TestUtils.getDateToTest;
 import static java.util.Arrays.asList;
-import static java.util.Calendar.DAY_OF_MONTH;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -75,15 +75,4 @@ public class TimesheetTest {
         assertDates(dates, asList(1, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29));
     }
 
-    private void assertDates(List<Date> dates, List<Integer> expectedDates) {
-        assertThat(dates.size(), is(expectedDates.size()));
-        for (int i = 0; i < dates.size(); i++) {
-            c.setTime(dates.get(i));
-            assertThat(c.get(DAY_OF_MONTH), is(expectedDates.get(i)));
-        }
-    }
-
-    private Date getDateToTest(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-    }
 }
