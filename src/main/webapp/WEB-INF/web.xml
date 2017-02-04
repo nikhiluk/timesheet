@@ -26,7 +26,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>timesheet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/add/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>resources</servlet-name>

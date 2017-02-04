@@ -119,6 +119,7 @@ public class TimesheetServiceTest {
 
 
     private void assertDates(List<java.util.Date> dates, List<Integer> expectedDates) {
+        dates.sort(java.util.Date::compareTo);
         assertThat(dates.size(), CoreMatchers.is(expectedDates.size()));
         for (int i = 0; i < dates.size(); i++) {
             c.setTime(dates.get(i));
