@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,5 +62,34 @@ public class TimesheetControllerTest {
 
         List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
         assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(1, 2, 3, 6, 7, 8, 9, 10, 13));
+    }
+
+    @Test
+    public void getDaysWorkedThisMonth() throws ParseException {
+
+        addDateToDb(Arrays.asList("23/3/2015", "2/4/2015", "3/4/2015"));
+
+        String urlToGet = "http://localhost:8080/timesheetApp/get/month-till-today";
+        ResponseEntity<String> responseEntity = restTemplate.exchange(urlToGet, HttpMethod.GET, null, String.class, new HashMap<String, Object>());
+
+        assertThat(responseEntity.getBody(), is("2"));
+
+        addDateToDb(Arrays.asList("8/4/2015", "9/4/2015"));
+
+        urlToGet = "http://localhost:8080/timesheetApp/get/month-till-today";
+        responseEntity = restTemplate.exchange(urlToGet, HttpMethod.GET, null, String.class, new HashMap<String, Object>());
+
+        assertThat(responseEntity.getBody(), is("4"));
+    }
+
+
+    private void addDateToDb(List<String> dates) throws ParseException {
+        for (String date : dates) {
+            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
+        }
+    }
+
+    private Date getDateTime(String dateString) throws ParseException {
+        return new Date(getDateToTest(dateString).getTime());
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 
 import static co.uk.nikhil.TestUtils.getDateToTest;
 import static junit.framework.Assert.assertFalse;
@@ -46,10 +48,7 @@ public class TimesheetDaoTest {
 
     @Test
     public void dateExists() throws ParseException {
-        jdbcTemplate.update("insert into days_worked values ('2016-07-1')");
-        jdbcTemplate.update("insert into days_worked values ('2016-07-22')");
-        jdbcTemplate.update("insert into days_worked values ('2016-11-22')");
-        jdbcTemplate.update("insert into days_worked values ('2016-11-1')");
+        addDateToDb(Arrays.asList("1/7/2016", "22/7/2016", "22/11/2016", "1/11/2016"));
 
         assertTrue(timesheetDao.dateExists(getDateToTest("01/07/2016")));
         assertTrue(timesheetDao.dateExists(getDateToTest("22/07/2016")));
@@ -58,4 +57,26 @@ public class TimesheetDaoTest {
         assertFalse(timesheetDao.dateExists(getDateToTest("23/11/2016")));
         assertFalse(timesheetDao.dateExists(getDateToTest("04/11/2016")));
     }
+
+    @Test
+    public void getDaysByMonthAndYear() throws ParseException {
+
+        addDateToDb(Arrays.asList("1/1/2016", "11/1/2016", "1/7/2016", "22/7/2016", "22/7/2015", "22/11/2016", "1/11/2016"));
+
+        assertThat(timesheetDao.getDaysByMonthAndYear(1, 2016), is(2) );
+        assertThat(timesheetDao.getDaysByMonthAndYear(7, 2016), is(2) );
+        assertThat(timesheetDao.getDaysByMonthAndYear(7, 2015), is(1) );
+        assertThat(timesheetDao.getDaysByMonthAndYear(11, 2016), is(2) );
+    }
+
+    private void addDateToDb(List<String> dates) throws ParseException {
+        for (String date : dates) {
+            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
+        }
+    }
+
+    private Date getDateTime(String dateString) throws ParseException {
+        return new Date(getDateToTest(dateString).getTime());
+    }
+
 }

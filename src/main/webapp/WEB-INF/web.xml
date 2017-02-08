@@ -29,6 +29,10 @@
         <url-pattern>/add/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>timesheet</servlet-name>
+        <url-pattern>/get/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>resources</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>

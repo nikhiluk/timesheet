@@ -3,6 +3,7 @@ package co.uk.nikhil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -25,6 +26,15 @@ public class TimesheetService {
         Date currentDate = currentDateService.getCurrentDate();
         List<Date> dates = timesheet.getWorkingMonthTill(currentDate);
         dates.forEach(this::addDate);
+    }
+
+    public Integer getDaysWorkedThisMonth() {
+        Date currentDate = currentDateService.getCurrentDate();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+        return timesheetDao.getDaysByMonthAndYear( month,  year);
     }
 
     private void addDate(Date date) {

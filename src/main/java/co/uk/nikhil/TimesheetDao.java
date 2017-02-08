@@ -21,4 +21,10 @@ public class TimesheetDao {
         int count = jdbcTemplate.queryForInt("select count(*) from days_worked where day = ?", new Object[]{new java.sql.Date(date.getTime())});
         return count == 1;
     }
+
+    public Integer getDaysByMonthAndYear(int month, int year) {
+        int count = jdbcTemplate.queryForInt("select count(*) from days_worked where MONTH(day) = ? AND YEAR(day) = ?", month, year);
+
+        return count;
+    }
 }

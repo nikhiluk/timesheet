@@ -13,6 +13,8 @@ hello world
     <input type="submit" value="Worked all days this month">
 </form>
 
+Today = ${currentDate}
+Days Worked This Month = ${daysWorked}
 
 </body>
 </html>
