@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Timesheet App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body>
+hello world
+<form action="/timesheetApp/add/today" method="post">
+    <input type="submit" value="Worked today"/>
+</form>
+
+
+<form action="/timesheetApp/add/month-till-today" method="post">
+    <input type="submit" value="Worked all days this month"/>
+</form>
+
+Current Date = <label th:text="${currentDate}"/>
+
+Days Worked = <label th:text="${daysWorked}"/>
+
+
+</body>
+</html>

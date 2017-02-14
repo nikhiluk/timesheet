@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 @ComponentScan(basePackages = "co.uk.nikhil")
 //@EnableWebMvc
 public class SpringConfig {
