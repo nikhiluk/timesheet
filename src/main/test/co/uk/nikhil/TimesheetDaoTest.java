@@ -30,21 +30,21 @@ public class TimesheetDaoTest {
     TimesheetDao timesheetDao;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    TestDbUtil testDbUtil;
 
     @Before
     public void setUp() throws Exception {
-        this.jdbcTemplate.execute("delete from days_worked");
+        testDbUtil.clearTimesheetTable();
     }
 
     @Test
     public void addDate() throws ParseException {
         timesheetDao.addDate(getDateToTest("01/07/2016"));
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(1));
 
-        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
         assertThat(date, is(getDateToTest("01/07/2016")));
     }
 
@@ -73,12 +73,8 @@ public class TimesheetDaoTest {
 
     private void addDateToDb(List<String> dates) throws ParseException {
         for (String date : dates) {
-            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
+            testDbUtil.insertDayInTimesheetTable(date);
         }
-    }
-
-    private Date getDateTime(String dateString) throws ParseException {
-        return new Date(getDateToTest(dateString).getTime());
     }
 
 }

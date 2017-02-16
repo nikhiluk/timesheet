@@ -33,13 +33,13 @@ public class TimesheetControllerTest {
     private RestTemplate restTemplate;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private TestDbUtil testDbUtil;
 
 
     @Before
     public void setup() {
         restTemplate = new RestTemplate();
-        this.jdbcTemplate.execute("delete from days_worked");
+        testDbUtil.clearTimesheetTable();
     }
 
     @Test
@@ -47,10 +47,10 @@ public class TimesheetControllerTest {
         String url = "http://localhost:8080/timesheetApp/add/today";
         restTemplate.exchange(url, HttpMethod.POST, null, Void.class, new HashMap<String, Object>());
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(1));
 
-        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
         assertThat(date, is(getDateToTest("13/4/2015")));
     }
 
@@ -59,39 +59,28 @@ public class TimesheetControllerTest {
         String url = "http://localhost:8080/timesheetApp/add/month-till-today";
         restTemplate.exchange(url, HttpMethod.POST, null, Void.class, new HashMap<String, Object>());
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(9));
 
-        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
+        List<Date> dates = testDbUtil.getAllDatesFromTimesheetTable();
         assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(1, 2, 3, 6, 7, 8, 9, 10, 13));
     }
 
     @Test
     public void getDaysWorkedThisMonth() throws ParseException {
 
-        addDateToDb(Arrays.asList("23/3/2015", "2/4/2015", "3/4/2015"));
+        testDbUtil.addDatesToDb(Arrays.asList("23/3/2015", "2/4/2015", "3/4/2015"));
 
         String urlToGet = "http://localhost:8080/timesheetApp/get/month-till-today";
         ResponseEntity<String> responseEntity = restTemplate.exchange(urlToGet, HttpMethod.GET, null, String.class, new HashMap<String, Object>());
 
         assertThat(responseEntity.getBody(), is("2"));
 
-        addDateToDb(Arrays.asList("8/4/2015", "9/4/2015"));
+        testDbUtil.addDatesToDb(Arrays.asList("8/4/2015", "9/4/2015"));
 
         urlToGet = "http://localhost:8080/timesheetApp/get/month-till-today";
         responseEntity = restTemplate.exchange(urlToGet, HttpMethod.GET, null, String.class, new HashMap<String, Object>());
 
         assertThat(responseEntity.getBody(), is("4"));
-    }
-
-
-    private void addDateToDb(List<String> dates) throws ParseException {
-        for (String date : dates) {
-            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
-        }
-    }
-
-    private Date getDateTime(String dateString) throws ParseException {
-        return new Date(getDateToTest(dateString).getTime());
     }
 }

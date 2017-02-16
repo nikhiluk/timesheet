@@ -36,21 +36,21 @@ public class TimesheetServiceTest {
     private CurrentDateService currentDateService;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    TestDbUtil testDbUtil;
 
     @Before
     public void setUp() throws Exception {
-        this.jdbcTemplate.execute("delete from days_worked");
+        testDbUtil.clearTimesheetTable();
     }
 
     @Test
     public void addToday() {
         timesheetService.addToday();
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(1));
 
-        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
         assertThat(date, is(new Date(date.getTime())));
     }
 
@@ -60,10 +60,10 @@ public class TimesheetServiceTest {
 
         timesheetService.addToday();
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(1));
 
-        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
         assertThat(date, is(getDateToTest("13/1/2017")));
 
     }
@@ -71,14 +71,14 @@ public class TimesheetServiceTest {
     @Test
     public void addTodayAndIfItAlreadyExistsDoNothing() throws ParseException {
         timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
-        jdbcTemplate.update("insert into days_worked values (?)", getDateTime("13/1/2017"));
+        testDbUtil.insertDayInTimesheetTable("13/1/2017");
 
         timesheetService.addToday();
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(1));
 
-        Date date = (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
         assertThat(date, is(new Date(date.getTime())));
     }
 
@@ -89,10 +89,10 @@ public class TimesheetServiceTest {
 
         timesheetService.addMonthTillToday();
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(10));
 
-        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
+        List<Date> dates = testDbUtil.getAllDatesFromTimesheetTable();
         assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(2, 3, 4, 5, 6, 9, 10, 11, 12, 13));
     }
 
@@ -100,14 +100,14 @@ public class TimesheetServiceTest {
     @Test
     public void addMonthTillDateAndIfAnyDateAlreadyExistsDoNotAddAgain() throws ParseException {
         timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
-        addDateToDb(Arrays.asList("11/1/2017", "12/1/2017"));
+        testDbUtil.addDatesToDb(Arrays.asList("11/1/2017", "12/1/2017"));
 
         timesheetService.addMonthTillToday();
 
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked");
+        int count = testDbUtil.countAllInTimesheetTable();
         assertThat(count, is(10));
 
-        List<Date> dates = jdbcTemplate.queryForList("select day from days_worked", Date.class);
+        List<Date> dates = testDbUtil.getAllDatesFromTimesheetTable();
         assertDates(dates.stream().map(d -> new java.util.Date(d.getTime())).collect(Collectors.toList()), asList(2, 3, 4, 5, 6, 9, 10, 11, 12, 13));
     }
 
@@ -115,25 +115,17 @@ public class TimesheetServiceTest {
     @Test
     public void getDaysWorkedInCurrentMonth() throws ParseException {
         timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
-        addDateToDb(Arrays.asList("11/1/2017", "12/1/2017"));
+        testDbUtil.addDatesToDb(Arrays.asList("11/1/2017", "12/1/2017"));
 
         int daysWorkedThisMonth = timesheetService.getDaysWorkedThisMonth();
         assertThat(daysWorkedThisMonth, is(2));
 
-        addDateToDb(Arrays.asList("9/1/2017", "13/1/2017", "13/1/2016"));
+        testDbUtil.addDatesToDb(Arrays.asList("9/1/2017", "13/1/2017", "13/1/2016"));
 
 
         daysWorkedThisMonth = timesheetService.getDaysWorkedThisMonth();
         assertThat(daysWorkedThisMonth, is(4));
     }
 
-    private void addDateToDb(List<String> dates) throws ParseException {
-        for (String date : dates) {
-            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
-        }
-    }
 
-    private Date getDateTime(String dateString) throws ParseException {
-        return new Date(getDateToTest(dateString).getTime());
-    }
 }
