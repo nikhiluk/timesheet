@@ -1,4 +1,4 @@
-package co.uk.nikhil;
+package co.uk.nikhil.dao;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

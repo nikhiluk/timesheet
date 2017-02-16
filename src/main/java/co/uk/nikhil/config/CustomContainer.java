@@ -1,4 +1,4 @@
-package co.uk.nikhil;
+package co.uk.nikhil.config;
 
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;

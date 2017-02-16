@@ -1,4 +1,4 @@
-package co.uk.nikhil;
+package co.uk.nikhil.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

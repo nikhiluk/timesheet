@@ -1,4 +1,4 @@
-package co.uk.nikhil;
+package co.uk.nikhil.service;
 
 import org.springframework.stereotype.Service;
 
