@@ -23,7 +23,7 @@ import static org.hamcrest.core.Is.is;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = {SpringConfig.class, TestConfig.class})
 public class TimesheetDaoTest {
 
@@ -51,7 +51,7 @@ public class TimesheetDaoTest {
 
     @Test
     public void dateExists() throws ParseException {
-        addDateToDb(Arrays.asList("1/7/2016", "22/7/2016", "22/11/2016", "1/11/2016"));
+        testDbUtil.addDatesToDb(Arrays.asList("1/7/2016", "22/7/2016", "22/11/2016", "1/11/2016"));
 
         assertTrue(timesheetDao.dateExists(getDateToTest("01/07/2016")));
         assertTrue(timesheetDao.dateExists(getDateToTest("22/07/2016")));
@@ -64,7 +64,7 @@ public class TimesheetDaoTest {
     @Test
     public void getDaysByMonthAndYear() throws ParseException {
 
-        addDateToDb(Arrays.asList("1/1/2016", "11/1/2016", "1/7/2016", "22/7/2016", "22/7/2015", "22/11/2016", "1/11/2016"));
+        testDbUtil.addDatesToDb(Arrays.asList("1/1/2016", "11/1/2016", "1/7/2016", "22/7/2016", "22/7/2015", "22/11/2016", "1/11/2016"));
 
         assertThat(timesheetDao.getDaysByMonthAndYear(1, 2016), is(2) );
         assertThat(timesheetDao.getDaysByMonthAndYear(7, 2016), is(2) );
@@ -72,10 +72,17 @@ public class TimesheetDaoTest {
         assertThat(timesheetDao.getDaysByMonthAndYear(11, 2016), is(2) );
     }
 
-    private void addDateToDb(List<String> dates) throws ParseException {
-        for (String date : dates) {
-            testDbUtil.insertDayInTimesheetTable(date);
-        }
+    @Test
+    public void clearDatesForMonth() throws ParseException {
+        testDbUtil.addDatesToDb(Arrays.asList("23/3/2015", "2/4/2015", "3/4/2015", "23/4/2015", "30/4/2015"));
+
+        timesheetDao.deleteDaysForMonth(4);
+
+        int count = testDbUtil.countAllInTimesheetTable();
+        assertThat(count, is(1));
+
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
+        assertThat(date, is(getDateToTest("23/3/2015")));
     }
 
 }

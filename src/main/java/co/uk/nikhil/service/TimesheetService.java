@@ -38,6 +38,14 @@ public class TimesheetService {
         return timesheetDao.getDaysByMonthAndYear( month,  year);
     }
 
+    public void clearCurrentMonth() {
+        Date currentDate = currentDateService.getCurrentDate();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        int month = c.get(Calendar.MONTH) + 1;
+        timesheetDao.deleteDaysForMonth(month);
+    }
+
     private void addDate(Date date) {
         if (!timesheetDao.dateExists(date)) {
             timesheetDao.addDate(date);

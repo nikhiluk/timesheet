@@ -23,8 +23,10 @@ public class TimesheetDao {
     }
 
     public Integer getDaysByMonthAndYear(int month, int year) {
-        int count = jdbcTemplate.queryForInt("select count(*) from days_worked where MONTH(day) = ? AND YEAR(day) = ?", month, year);
+        return jdbcTemplate.queryForInt("select count(*) from days_worked where MONTH(day) = ? AND YEAR(day) = ?", month, year);
+    }
 
-        return count;
+    public void deleteDaysForMonth(int month) {
+        jdbcTemplate.update("delete from days_worked where MONTH(day) = ?", month);
     }
 }

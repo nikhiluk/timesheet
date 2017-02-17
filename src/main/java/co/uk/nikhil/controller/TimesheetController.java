@@ -37,6 +37,14 @@ public class TimesheetController {
         return timesheetService.getDaysWorkedThisMonth().toString();
     }
 
+
+    @RequestMapping(value = "/current-month", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void clearCurrentMonth(HttpServletResponse response) {
+        timesheetService.clearCurrentMonth();
+        redirectToMainPage(response);
+    }
+
     private void redirectToMainPage(HttpServletResponse response) {
         try {
             response.sendRedirect("/timesheetApp/timesheet.do");

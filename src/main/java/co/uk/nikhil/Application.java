@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-@SpringBootApplication(exclude=DispatcherServletAutoConfiguration.class)
+@SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Application {
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.register(SpringConfig.class);
         dispatcherServlet.setApplicationContext(applicationContext);
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(dispatcherServlet, "/add/*", "/get/*");
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(dispatcherServlet, "/add/*", "/get/*", "/clear/*");
         servletRegistrationBean.setName("timesheet");
         return servletRegistrationBean;
     }

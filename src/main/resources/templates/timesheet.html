@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Timesheet App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!--<script type="text/javascript" src="/timesheetApp/jquery.js"></script>-->
+    <script type="text/javascript"  th:src="@{/js/jquery.js}"/>
+</head>
+<body>
+hello world
+<form action="/timesheetApp/add/today" method="post">
+    <input type="submit" value="Worked today"/>
+</form>
+
+
+<form action="/timesheetApp/add/month-till-today" method="post">
+    <input type="submit" value="Worked all days this month"/>
+</form>
+
+<!--<form action="/timesheetApp/clear/current-month" method="post">-->
+    <!--<input type="hidden" name="_method" value="delete" />-->
+    <input type="submit" id="delete" onclick="deleteWine();" value="Clear current month"/>
+<!--</form>-->
+
+
+Current Date = <label th:text="${currentDate}"/>
+
+Days Worked = <label th:text="${daysWorked}"/>
+
+
+<script type="text/javascript">
+    function functionOne() {alert('got clicked');}
+
+
+    function deleteWine() {
+	console.log('deleteWine');
+	$.ajax({
+		type: 'DELETE',
+		url: '/timesheetApp/clear/current-month',
+		success: function(data, textStatus, jqXHR){
+			<!--alert('Wine deleted successfully');-->
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert('deleteWine error');
+		}
+	});
+}
+</script>
+</body>
+</html>

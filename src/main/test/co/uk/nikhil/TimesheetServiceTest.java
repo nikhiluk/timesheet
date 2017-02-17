@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = {SpringConfig.class, TestConfig.class})
 public class TimesheetServiceTest {
 
@@ -129,5 +129,19 @@ public class TimesheetServiceTest {
         assertThat(daysWorkedThisMonth, is(4));
     }
 
+    @Test
+    public void clearCurrentMonth() throws ParseException {
+        timesheetService.setCurrentDateService(currentDateServiceWithTestDate);
+        testDbUtil.addDatesToDb(Arrays.asList("23/3/2017", "2/1/2017", "3/1/2017", "23/1/2017", "30/1/2017"));
+
+        timesheetService.clearCurrentMonth();
+
+        int count = testDbUtil.countAllInTimesheetTable();
+        assertThat(count, is(1));
+
+        Date date = testDbUtil.getSingleDateFromTimesheetTable();
+        assertThat(date, is(getDateToTest("23/3/2017")));
+
+    }
 
 }
