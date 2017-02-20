@@ -26,7 +26,6 @@ public class TimesheetViewController   {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String format = simpleDateFormat.format(currentDateService.getCurrentDate());
         modelAndView.addObject("currentDate", format);
-        modelAndView.addObject("daysWorked", timesheetService.getDaysWorkedThisMonth());
         return modelAndView;
     }
 

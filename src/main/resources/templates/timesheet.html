@@ -3,45 +3,79 @@
 <head>
     <title>Timesheet App</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <!--<script type="text/javascript" src="/timesheetApp/jquery.js"></script>-->
     <script type="text/javascript" th:src="@{/js/jquery.js}"/>
 </head>
-<body>
-hello world
-<form action="/timesheetApp/add/today" method="post">
-    <input type="submit" value="Worked today"/>
-</form>
+<body onload="getDaysWorked();">
 
+<input type="submit" onclick="postWorkedToday();" value="Worked today"/>
 
-<form action="/timesheetApp/add/month-till-today" method="post">
-    <input type="submit" value="Worked all days this month"/>
-</form>
+<input type="submit" onclick="postAllDaysWorkedThisMonth();" value="Worked all days this month"/>
 
-<input type="submit" id="delete" onclick="deleteWine();" value="Clear current month"/>
+<input type="submit" id="delete" onclick="clearCurrentMonth();" value="Clear current month"/>
 
 
 Current Date = <label th:text="${currentDate}"/>
 
-Days Worked = <label th:text="${daysWorked}"/>
+Days Worked = <label id="daysWorked"/>
 
 
 <script type="text/javascript">
-    function functionOne() {alert('got clicked');}
 
-
-    function deleteWine() {
-	console.log('deleteWine');
+function clearCurrentMonth() {
+    console.log('clearCurrentMonth');
 	$.ajax({
 		type: 'DELETE',
 		url: '/timesheetApp/clear/current-month',
 		success: function(data, textStatus, jqXHR){
 			<!--alert('Wine deleted successfully');-->
+            getDaysWorked();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			alert('deleteWine error');
 		}
 	});
 }
+
+function getDaysWorked() {
+    console.log('getDaysWorked');
+	$.ajax({
+		type: 'GET',
+		url: '/timesheetApp/get/month-till-today',
+		success: function(data, textStatus, jqXHR){
+            document.getElementById("daysWorked").innerHTML = data;
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+		}
+	});
+}
+
+
+function postAllDaysWorkedThisMonth() {
+    console.log('postAllDaysWorkedThisMonth');
+	$.ajax({
+		type: 'POST',
+		url: '/timesheetApp/add/month-till-today',
+		success: function(data, textStatus, jqXHR){
+			getDaysWorked();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+		}
+	});
+}
+
+function postWorkedToday() {
+    console.log('postWorkedToday');
+	$.ajax({
+		type: 'POST',
+		url: '/timesheetApp/add/today',
+		success: function(data, textStatus, jqXHR){
+			getDaysWorked();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+		}
+	});
+}
+
 
 </script>
 </body>

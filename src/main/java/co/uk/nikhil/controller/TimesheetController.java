@@ -21,14 +21,12 @@ public class TimesheetController {
     @ResponseStatus(HttpStatus.OK)
     public void addToday(HttpServletResponse response) {
         timesheetService.addToday();
-        redirectToMainPage(response);
     }
 
     @RequestMapping(value = "/month-till-today", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void addMonthTillToday(HttpServletResponse response) {
         timesheetService.addMonthTillToday();
-        redirectToMainPage(response);
     }
 
     @RequestMapping(value = "/month-till-today", method = RequestMethod.GET)
@@ -42,7 +40,6 @@ public class TimesheetController {
     @ResponseStatus(HttpStatus.OK)
     public void clearCurrentMonth(HttpServletResponse response) {
         timesheetService.clearCurrentMonth();
-        redirectToMainPage(response);
     }
 
     private void redirectToMainPage(HttpServletResponse response) {
