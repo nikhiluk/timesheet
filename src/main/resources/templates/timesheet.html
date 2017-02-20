@@ -4,7 +4,7 @@
     <title>Timesheet App</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!--<script type="text/javascript" src="/timesheetApp/jquery.js"></script>-->
-    <script type="text/javascript"  th:src="@{/js/jquery.js}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"/>
 </head>
 <body>
 hello world
@@ -17,10 +17,7 @@ hello world
     <input type="submit" value="Worked all days this month"/>
 </form>
 
-<!--<form action="/timesheetApp/clear/current-month" method="post">-->
-    <!--<input type="hidden" name="_method" value="delete" />-->
-    <input type="submit" id="delete" onclick="deleteWine();" value="Clear current month"/>
-<!--</form>-->
+<input type="submit" id="delete" onclick="deleteWine();" value="Clear current month"/>
 
 
 Current Date = <label th:text="${currentDate}"/>
@@ -45,6 +42,7 @@ Days Worked = <label th:text="${daysWorked}"/>
 		}
 	});
 }
+
 </script>
 </body>
 </html>
