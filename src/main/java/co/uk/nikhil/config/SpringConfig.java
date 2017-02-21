@@ -2,9 +2,12 @@ package co.uk.nikhil.config;
 
 import co.uk.nikhil.service.CurrentDateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -39,24 +42,6 @@ public class SpringConfig {
 
         }
         return currentDateService;
-    }
-
-    @Bean
-    @Autowired
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        String dbName = env.getProperty("database.name");
-        driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/" + dbName);
-        driverManagerDataSource.setUsername("root");
-//        driverManagerDataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-
-        return driverManagerDataSource;
     }
 
     private java.util.Date getDateToTest(String dateString) throws ParseException {
