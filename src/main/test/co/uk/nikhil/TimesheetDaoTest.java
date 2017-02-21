@@ -24,7 +24,7 @@ import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ContextConfiguration(classes = {SpringConfig.class, TestConfig.class})
+@ContextConfiguration(classes = {SpringConfig.class})
 public class TimesheetDaoTest {
 
     @Autowired
