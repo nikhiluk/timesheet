@@ -23,7 +23,7 @@ public class CurrentDateServiceTest {
     @Test
     public void getCurrentDateForInitialisedDate() throws Exception {
         CurrentDateService currentDateService = new CurrentDateService();
-        currentDateService.setCurrentDate(getDateToTest("22/6/2017"));
+        currentDateService.setCurrentDate("22/6/2017");
 
         Date currentDate = currentDateService.getCurrentDate();
         assertThat(currentDate, is(getDateToTest("22/6/2017")));

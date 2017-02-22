@@ -6,10 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
@@ -17,6 +21,7 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static co.uk.nikhil.TestUtils.assertDates;
@@ -40,6 +45,14 @@ public class TimesheetControllerTest {
     public void setup() {
         restTemplate = new RestTemplate();
         testDbUtil.clearTimesheetTable();
+
+        String url = "http://localhost:8080/timesheetApp/add/set-current-date";
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("currentDate", "13/4/2015");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, new HttpHeaders());
+        restTemplate.exchange(url, HttpMethod.POST, request, Void.class);
     }
 
     @Test

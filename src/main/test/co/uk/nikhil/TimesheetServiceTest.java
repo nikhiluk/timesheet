@@ -44,8 +44,8 @@ public class TimesheetServiceTest {
     @Before
     public void setUp() throws Exception {
         testDbUtil.clearTimesheetTable();
-        currentDateServiceWithTestDate.setCurrentDate(getDateToTest("13/1/2017"));
-        currentDateService.setCurrentDate(getDateToTest("13/4/2015"));
+        currentDateServiceWithTestDate.setCurrentDate("13/1/2017");
+        currentDateService.setCurrentDate("13/4/2015");
 
     }
 
