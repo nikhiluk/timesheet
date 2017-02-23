@@ -158,19 +158,19 @@
                         <user>root</user>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <configuration>
-                        <warName>timesheetApp</warName>
-                    </configuration>
-
-                </plugin>
                 <!--<plugin>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-jar-plugin</artifactId>-->
+                    <!--<version>3.0.0</version>-->
+                    <!--<configuration>-->
+                        <!--<jarName>timesheetApp</jarName>-->
+                    <!--</configuration>-->
+
                 <!--</plugin>-->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
