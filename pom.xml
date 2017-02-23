@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ts</groupId>
-    <artifactId>ts</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>timesheetApp</artifactId>
+    <!--<version>1.0-SNAPSHOT</version>-->
     <packaging>jar</packaging>
 
     <properties>
@@ -158,19 +158,19 @@
                         <user>root</user>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <configuration>
-                        <warName>timesheetApp</warName>
-                    </configuration>
-
-                </plugin>
                 <!--<plugin>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-jar-plugin</artifactId>-->
+                    <!--<version>3.0.0</version>-->
+                    <!--<configuration>-->
+                        <!--<jarName>timesheetApp</jarName>-->
+                    <!--</configuration>-->
+
                 <!--</plugin>-->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
