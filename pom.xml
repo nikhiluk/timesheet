@@ -163,15 +163,21 @@
                         <user>root</user>
                     </configuration>
                 </plugin>
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-jar-plugin</artifactId>-->
-                    <!--<version>3.0.0</version>-->
-                    <!--<configuration>-->
-                        <!--<jarName>timesheetApp</jarName>-->
-                    <!--</configuration>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                                <mainClass>co.uk.nikhil.Application</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
 
-                <!--</plugin>-->
+                </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
