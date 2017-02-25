@@ -181,9 +181,9 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <configuration>
-                        <mainClass>co.uk.nikhil.Application</mainClass>
-                    </configuration>
+                    <!--<configuration>-->
+                        <!--<mainClass>co.uk.nikhil.Application</mainClass>-->
+                    <!--</configuration>-->
                 </plugin>
             </plugins>
         </pluginManagement>
