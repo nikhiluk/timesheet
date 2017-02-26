@@ -1,3 +1,3 @@
 CREATE TABLE days_worked (
-    day DATETIME NOT NULL
+    day TIMESTAMP NOT NULL
 );

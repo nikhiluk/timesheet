@@ -19,16 +19,16 @@ public class TestDbUtil {
     JdbcTemplate jdbcTemplate;
 
     void clearTimesheetTable() {
-        this.jdbcTemplate.execute("delete from days_worked");
+        this.jdbcTemplate.execute("delete from timesheet_dev.days_worked");
     }
 
     int countAllInTimesheetTable() {
-        return jdbcTemplate.queryForInt("select count(*) from days_worked");
+        return jdbcTemplate.queryForInt("select count(*) from timesheet_dev.days_worked");
     }
 
     void insertDayInTimesheetTable(String date) {
         try {
-            jdbcTemplate.update("insert into days_worked values (?)", getDateTime(date));
+            jdbcTemplate.update("insert into timesheet_dev.days_worked values (?)", getDateTime(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -40,11 +40,11 @@ public class TestDbUtil {
     }
 
     List<Date> getAllDatesFromTimesheetTable() {
-        return jdbcTemplate.queryForList("select day from days_worked", Date.class);
+        return jdbcTemplate.queryForList("select day from timesheet_dev.days_worked", Date.class);
     }
 
     Date getSingleDateFromTimesheetTable() {
-        return (Date) jdbcTemplate.queryForObject("select day from days_worked", Date.class);
+        return (Date) jdbcTemplate.queryForObject("select day from timesheet_dev.days_worked", Date.class);
     }
 
     void addDatesToDb(List<String> dates) throws ParseException {
