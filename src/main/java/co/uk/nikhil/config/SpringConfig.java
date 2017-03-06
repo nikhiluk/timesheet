@@ -19,32 +19,6 @@ import java.util.Date;
 
 @Configuration
 @ComponentScan(basePackages = "co.uk.nikhil")
-//@EnableWebMvc
 public class SpringConfig {
 
-    @Autowired
-    Environment env;
-
-
-//    @Bean
-//    @Autowired
-//    public CurrentDateService currentDateService() {
-//        String currentDate = env.getProperty("current.date");
-//        CurrentDateService currentDateService = new CurrentDateService();
-//        if (currentDate != null && !currentDate.isEmpty()) {
-//            try {
-//                currentDateService.setCurrentDate(getDateToTest(currentDate));
-//            } catch (ParseException e) {
-//                currentDateService.setCurrentDate(new Date());
-//            }
-//        } else {
-//            currentDateService.setCurrentDate(new Date());
-//
-//        }
-//        return currentDateService;
-//    }
-
-    private java.util.Date getDateToTest(String dateString) throws ParseException {
-        return new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-    }
 }

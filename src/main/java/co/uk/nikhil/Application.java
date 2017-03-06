@@ -18,22 +18,21 @@ public class Application {
 
     @Bean
     public ServletRegistrationBean resourcesServlet() {
-        DispatcherServlet dispatcherServlet = new DispatcherServlet();
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
-        applicationContext.register(SpringConfig.class);
-        dispatcherServlet.setApplicationContext(applicationContext);
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(dispatcherServlet, "*.do");
-        servletRegistrationBean.setName("resources1");
-        return servletRegistrationBean;
+        return getServletRegistrationBean("resources1", "*.do");
     }
+
     @Bean
     public ServletRegistrationBean timesheetServlet() {
+       return getServletRegistrationBean("timesheet", "/add/*", "/get/*", "/clear/*");
+    }
+
+    private ServletRegistrationBean getServletRegistrationBean(String registrationName, String... urlMappings) {
         DispatcherServlet dispatcherServlet = new DispatcherServlet();
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.register(SpringConfig.class);
         dispatcherServlet.setApplicationContext(applicationContext);
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(dispatcherServlet, "/add/*", "/get/*", "/clear/*");
-        servletRegistrationBean.setName("timesheet");
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(dispatcherServlet, urlMappings);
+        servletRegistrationBean.setName(registrationName);
         return servletRegistrationBean;
     }
 
