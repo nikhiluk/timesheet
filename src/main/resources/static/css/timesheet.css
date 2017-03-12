@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+     padding: 15px;
+}
+.full {
+    width: 100%
+}
+.col1 {
+    width: 25%;
+    float: left;
+
+}
+.col2 {
+    width: 75%;
+    float: left;
+}

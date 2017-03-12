@@ -4,20 +4,30 @@
     <title>Timesheet App</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script type="text/javascript" th:src="@{/js/jquery.js}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/timesheet.css}"/>
+
 </head>
 <body onload="getDaysWorked();">
-
-<input type="submit" onclick="postWorkedToday();" value="Worked today"/>
-
-<input type="submit" onclick="postAllDaysWorkedThisMonth();" value="Worked all days this month"/>
-
-<input type="submit" id="delete" onclick="clearCurrentMonth();" value="Clear current month"/>
-
-
-Current Date = <label th:text="${currentDate}"/>
-
-Days Worked = <label id="daysWorked"/>
-
+<div class="container">
+    <section class="full"><input type="submit" onclick="postWorkedToday();" value="Worked today"/></section>
+    <!--<aside class="col2"></aside>-->
+</div>
+<div class="container">
+    <section class="full"><input type="submit" onclick="postAllDaysWorkedThisMonth();" value="Worked all days this month"/></section>
+    <!--<aside class="col2"></aside>-->
+</div>
+<div class="container">
+    <section class="full"><input type="submit" id="delete" onclick="clearCurrentMonth();" value="Clear current month"/></section>
+    <!--<aside class="col2"></aside>-->
+</div>
+<div class="container">
+    <section class="col1">Current Date =</section>
+    <aside class="col2"><label th:text="${currentDate}"/></aside>
+</div>
+<div class="container">
+    <section class="col1">Days Worked =</section>
+    <aside class="col2"><label id="daysWorked"/></aside>
+</div>
 
 <script type="text/javascript">
 
@@ -75,6 +85,8 @@ function postWorkedToday() {
 		}
 	});
 }
+
+
 
 
 </script>
